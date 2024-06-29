@@ -8,7 +8,6 @@ const fs = require('fs');
 const db = require('./db/db.json')
 // Helper method for generating unique ids
 const uuid = require('./helpers/uuid');
-const getAndRenderNotes = require('./public/assets/js/index.js');
 // Static middleware for serving assets in the public folder - Do I really need this if I'm routing to /notes anyway? With it, /notes and /notes.html will go to the same place. I could change the starter code for button to direct to /notes.html instead of /notes and then I wouldn't need the route for /notes at all
 // I def don't need it, but I am bored, so here it is, it's just a bonus
 app.use(express.static("public"));
@@ -63,7 +62,6 @@ app.post('/api/notes', (req, res) => {
         ? console.error(writeErr)
         : console.info('Successfully updated notes'));
 
-        getAndRenderNotes();
       }
     });
 
