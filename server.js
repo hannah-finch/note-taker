@@ -8,8 +8,9 @@ const fs = require('fs');
 const db = require('./db/db.json')
 // Helper method for generating unique ids
 const uuid = require('./helpers/uuid');
-// Static middleware for serving assets in the public folder - Do I really need this if I'm routing to /notes anyway? With it, /notes and /notes.html will go to the same place. I could change the starter code for button to direct to /notes.html instead of /notes and then I wouldn't need the route for /notes at all
-// I def don't need it, but I am bored, so here it is, it's just a bonus
+// Helper functions for reading and writing to the JSON file
+const { readFromFile, readAndAppend } = require('./helpers/fsUtils');
+// Static middleware for serving assets in the public folder 
 app.use(express.static("public"));
 
 app.use(express.json());
@@ -22,12 +23,13 @@ app.get('/', (req, res) => {
 
 // GET Route for notes html page
 app.get('/notes', (req, res) => {
+
   res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
 // GET api json notes
 app.get('/api/notes', (req, res) => {
-  res.json(db);
+  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
 // * `POST /api/notes` should receive a new note to save on the request body, add it to the `db.json` file, and then return the new note to the client. You'll need to find a way to give each note a unique id when it's saved (look into npm packages that could do this for you).
