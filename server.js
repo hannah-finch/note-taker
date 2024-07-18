@@ -1,11 +1,10 @@
 const express = require('express');
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 const path = require('path');
 
 const fs = require('fs');
-const db = require('./db/db.json')
 // Helper method for generating unique ids
 const uuid = require('./helpers/uuid');
 // Helper functions for reading and writing to the JSON file
@@ -19,11 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 // GET Route for homepage
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/index.html'));
-});;
+});
 
 // GET Route for notes html page
 app.get('/notes', (req, res) => {
-
   res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
@@ -63,7 +61,6 @@ app.post('/api/notes', (req, res) => {
       (writeErr) => writeErr
         ? console.error(writeErr)
         : console.info('Successfully updated notes'));
-
       }
     });
 
